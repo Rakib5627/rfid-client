@@ -59,7 +59,7 @@ const User = () => {
             <tr className="text-xl font-semibold bg-gray-100">
               <th></th>
               <th>Name</th>
-              <th>ID</th>
+              <th>Student ID</th>
               <th>Gender</th>
               <th>Email</th>
               <th>Mobile</th>
@@ -71,8 +71,8 @@ const User = () => {
               <tr key={index} className="">
                 <th>{index + 1}</th>
                 <td>{user.name}</td>
-                <td>{user.userId}</td>
-                <td>{user.gender}</td>
+                <td className=" text-center">{user.studentId}</td>
+                <td className=" text-center">{user.gender}</td>
                 <td>{user.email}</td>
                 <td>{user.mobile}</td>
                 <td>

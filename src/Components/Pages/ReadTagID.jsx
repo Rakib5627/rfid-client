@@ -3,21 +3,6 @@ import { useEffect, useState } from "react";
 const ReadTagID = () => {
   const [data, setData] = useState({});
   const [error, setError] = useState("");
-
-  // useEffect(() => {
-  //   if (data?.UIDresult) {
-  //     fetch(`http://localhost:5001/users/${data.UIDresult}`)
-  //       .then((res) => res.json())
-  //       .then((data) => {
-  //         if (data.status != false) {
-  //           setData(data);
-  //         } else {
-  //           setError(data?.message);
-  //         }
-  //       })
-  //       .catch((error) => console.log(error));
-  //   }
-  // }, [data?.UIDresult]);
   //-----------------
   useEffect(() => {
     const eventSource = new EventSource("http://localhost:5001/events");
