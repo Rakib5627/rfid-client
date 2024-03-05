@@ -56,6 +56,11 @@ const ReadTagID = () => {
       </div>
       <hr />
       <div className="my-2 flex items-center gap-4 ">
+        <p className="block opacity-80">Role:</p>
+        <p>{data?.role}</p>
+      </div>
+      <hr />
+      <div className="my-2 flex items-center gap-4 ">
         <p className="block opacity-80">Mobile No:</p>
         <p>{data?.mobile}</p>
       </div>

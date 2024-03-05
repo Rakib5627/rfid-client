@@ -6,7 +6,8 @@ const Registration = () => {
   const [studentId, setStudentId] = useState("");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const [gender, setGender] = useState("female");
+  const [gender, setGender] = useState("male");
+  const [role, setRole] = useState("student");
   const [mobile, setMobile] = useState("");
   const [isExist, setIsExist] = useState(false);
 
@@ -23,9 +24,11 @@ const Registration = () => {
             setName(data?.name);
             setEmail(data?.email);
             setGender(data?.gender);
+            setRole(data?.role);
             setMobile(data?.mobile);
             setIsExist(true);
           } else {
+            resetForm();
             setUid(newData.UIDresult);
             setIsExist(false);
           }
@@ -37,6 +40,16 @@ const Registration = () => {
     };
   }, []);
 
+  const resetForm = () => {
+    setUid("");
+    setStudentId("");
+    setName("");
+    setEmail("");
+    setGender("male");
+    setRole("student");
+    setMobile("");
+    setIsExist(false);
+  };
   const handleUser = (e) => {
     e.preventDefault();
     const form = e.target;
@@ -47,8 +60,9 @@ const Registration = () => {
     const gender = form.gender.value;
     const mobile = form.mobile.value;
     const studentId = form.studentId.value;
+    const role = form.role.value;
 
-    const user = { userId, studentId, name, email, gender, mobile };
+    const user = { userId, studentId, name, email, gender, mobile, role };
     // return console.log(user);
 
     fetch("http://localhost:5001/users", {
@@ -68,7 +82,7 @@ const Registration = () => {
             showConfirmButton: false,
             timer: 1500,
           });
-          form.reset();
+          resetForm();
         }
       });
   };
@@ -149,25 +163,42 @@ const Registration = () => {
             />
           </label>
         </div>
-
-        <div className="form-control w-full mb-2">
-          <label className="label">
-            <span className="label-text">Gender</span>
-          </label>
-          <label className="input-group">
-            <select
-              name="gender"
-              className="input input-bordered w-full"
-              value={gender}
-              onChange={(e) => setGender(e.target.value)}
-            >
-              <option value="male">Male</option>
-              <option value="female">Female</option>
-              <option value="other">Other</option>
-            </select>
-          </label>
+        <div className=" flex justify-between w-full gap-10">
+          <div className="form-control w-full mb-2">
+            <label className="label">
+              <span className="label-text">Gender</span>
+            </label>
+            <label className="input-group">
+              <select
+                name="gender"
+                className="input input-bordered w-full"
+                value={gender}
+                onChange={(e) => setGender(e.target.value)}
+              >
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+                <option value="other">Other</option>
+              </select>
+            </label>
+          </div>
+          <div className="form-control w-full mb-2">
+            <label className="label">
+              <span className="label-text">Role</span>
+            </label>
+            <label className="input-group">
+              <select
+                name="role"
+                className="input input-bordered w-full"
+                value={role}
+                onChange={(e) => setRole(e.target.value)}
+              >
+                <option value="teacher">Teacher</option>
+                <option value="cr">CR</option>
+                <option value="student">Student</option>
+              </select>
+            </label>
+          </div>
         </div>
-
         <div className="form-control w-full mb-2">
           <label className="label">
             <span className="label-text">Mobile</span>
