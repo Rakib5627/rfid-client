@@ -9,6 +9,7 @@ import Registration from "./Components/Pages/Registration";
 import ReadTagID from "./Components/Pages/ReadTagID";
 import Update from "./Components/Pages/Update";
 import Attendance from "./Components/Pages/Attendance";
+import ManualEntry from "./Components/Pages/ManualEntry";
 
 const router = createBrowserRouter([
   {
@@ -39,6 +40,10 @@ const router = createBrowserRouter([
       {
         path: "/attendance",
         element: <Attendance></Attendance>,
+      },
+      {
+        path: "/manual-entry",
+        element: <ManualEntry></ManualEntry>,
       },
     ],
   },

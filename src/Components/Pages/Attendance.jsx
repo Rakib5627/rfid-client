@@ -8,12 +8,15 @@ const Attendance = () => {
   const [code, setCode] = useState("");
   const [courseCode, setCourserCode] = useState("");
   const [date, setDate] = useState("");
+  const [machineNo, setMachineNo] = useState("");
+
+  // console.log(users);
 
   useEffect(() => {
     const eventSource = new EventSource("http://localhost:5001/events");
     eventSource.onmessage = (event) => {
       const newData = JSON.parse(event.data);
-      console.log(newData);
+      // console.log(newData);
       fetch(`http://localhost:5001/users/${newData.UIDresult}`)
         .then((res) => res.json())
         .then((data) => {
@@ -25,6 +28,7 @@ const Attendance = () => {
                 (item) => item.userId == data.userId && item.studentId != ""
               );
               if (!isExist) {
+                data["machineNo"] = newData.machineNo;
                 return [...prevUsers, data];
               }
               Swal.fire({
@@ -61,10 +65,10 @@ const Attendance = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
+    // console.log(users, parseInt(machineNo));
     const arr = users
       .map((user) => {
-        if (user.role != "teacher") {
+        if (user.role != "teacher" && user.machineNo == machineNo) {
           return user.studentId;
         }
       })
@@ -73,8 +77,8 @@ const Attendance = () => {
       courseCode: courseCode ? courseCode : dept + "-" + code,
       date,
       presentIds: arr,
-      totalAttend: arr.length,
     };
+    // return console.log(data);
     if (!data.courseCode || !data.date) {
       Swal.fire({
         position: "center",
@@ -95,8 +99,10 @@ const Attendance = () => {
       });
       return;
     }
+    // console.log(data);
+
     fetch("http://localhost:5001/attendance", {
-      method: "POST",
+      method: "PATCH",
       headers: {
         "Content-Type": "application/json",
       },
@@ -115,7 +121,7 @@ const Attendance = () => {
       });
   };
   const handleDelete = (id) => {
-    console.log(id);
+    // console.log(id);
     setUsers(users.filter((user) => user._id != id));
   };
 
@@ -200,6 +206,20 @@ const Attendance = () => {
               />
             </label>
           </div>
+          <div className="form-control w-full mb-2">
+            <label className="label">
+              <span className="label-text">Machine No</span>
+            </label>
+            <label className="input-group">
+              <input
+                type="number"
+                name="machineNo"
+                className="input input-bordered w-full"
+                value={machineNo}
+                onChange={(e) => setMachineNo(e.target.value)}
+              />
+            </label>
+          </div>
         </div>
         <button
           disabled={!users.length}
@@ -211,7 +231,7 @@ const Attendance = () => {
       <div className=" bg-slate-100 rounded-lg  w-1/4 p-5 mt-5">
         <p>Dept: {dept}</p>
         <p>courseCode: {(dept || code) && dept + "-" + code}</p>
-        <p>Total Present: {users?.length}</p>
+        <p>Total Entry: {users?.length}</p>
       </div>
     </div>
   );

@@ -8,11 +8,13 @@ const ReadTagID = () => {
     const eventSource = new EventSource("http://localhost:5001/events");
     eventSource.onmessage = (event) => {
       const newData = JSON.parse(event.data);
+      // console.log(newData);
       fetch(`http://localhost:5001/users/${newData.UIDresult}`)
         .then((res) => res.json())
         .then((data) => {
           if (data.status != false) {
             setError("");
+            data = { ...data, status: newData.status };
             setData(data);
           } else {
             setData({
@@ -63,6 +65,11 @@ const ReadTagID = () => {
       <div className="my-2 flex items-center gap-4 ">
         <p className="block opacity-80">Mobile No:</p>
         <p>{data?.mobile}</p>
+      </div>
+      <hr />
+      <div className="my-2 flex items-center gap-4 ">
+        <p className="block opacity-80">Status:</p>
+        <p>{data?.status}</p>
       </div>
       {error && (
         <p className=" text-white bg-red-300 rounded p-4 mt-10">{error}</p>
